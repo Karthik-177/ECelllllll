@@ -31,20 +31,13 @@ const HeroSection = () => {
       </div>
 
       {/* Central Glass Morphism Circle */}
-      <div className="absolute inset-0 flex items-center justify-center">
+      <div className="absolute inset-0 flex items-center justify-center mt-20">
         <div className="w-96 h-96 md:w-[600px] md:h-[600px] rounded-full glass-morphism opacity-40"></div>
       </div>
 
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto animate-fade-in">
-        {/* Top Badge */}
-        <div className="inline-flex items-center px-6 py-3 rounded-full glass-morphism mb-8 animate-slide-up">
-          <span className="text-sm font-medium text-primary">
-            Entrepreneur Cell
-          </span>
-        </div>
-
         {/* Main Heading */}
         <div className="mb-8 animate-slide-up" style={{ animationDelay: '0.2s' }}>
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-2">
@@ -61,7 +54,12 @@ const HeroSection = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16 animate-slide-up" style={{ animationDelay: '0.6s' }}>
-          <Button variant="hero-primary" size="lg" className="px-8 py-4 text-lg">
+          <Button 
+            variant="hero-primary" 
+            size="lg" 
+            className="px-8 py-4 text-lg"
+            onClick={() => window.open('https://chat.whatsapp.com/GW2cZ1QyPwx4aBWNzwiDzY?mode=ac_t', '_blank')}
+          >
             Join Our Community
           </Button>
           <Button 

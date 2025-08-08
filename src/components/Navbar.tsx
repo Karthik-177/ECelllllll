@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,19 +16,12 @@ const Navbar = () => {
   }, []);
 
   const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "About", href: "#about" },
-    { name: "Upcoming Events", href: "#upcoming-events" },
-    { name: "Contact", href: "#contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Upcoming Events", href: "/events" },
+    { name: "Our Team", href: "/team" },
+    { name: "Contact", href: "/contact" },
   ];
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsOpen(false);
-  };
 
   return (
     <nav
@@ -40,39 +35,34 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a
-              href="#home"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToSection("#home");
-              }}
+            <Link
+              to="/"
               className="flex items-center space-x-3 text-2xl font-bold text-primary hover:text-primary/80 transition-colors"
             >
               <img 
-                src="/lovable-uploads/f344ed9a-e937-4b1d-b40e-185cf3f9437d.png" 
+                src="heyd.jpg" 
                 alt="E-Cell SMEC Logo" 
-                className="w-8 h-8"
+                className="w-10 h-13 rounded-full"
               />
-              <span>E-Cell SMEC</span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="ml-10 flex items-baseline space-x-8">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
-                  }}
-                  className="text-foreground hover:text-primary px-3 py-2 text-sm font-medium transition-colors duration-200 relative group"
+                  to={item.href}
+                  className={`px-3 py-2 text-sm font-medium transition-colors duration-200 relative group ${
+                    location.pathname === item.href 
+                      ? "text-primary" 
+                      : "text-foreground hover:text-primary"
+                  }`}
                 >
                   {item.name}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -93,17 +83,18 @@ const Navbar = () => {
           <div className="lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-md border-b border-primary/20 animate-fade-in">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollToSection(item.href);
-                  }}
-                  className="text-foreground hover:text-primary block px-3 py-2 text-base font-medium transition-colors"
+                  to={item.href}
+                  className={`block px-3 py-2 text-base font-medium transition-colors ${
+                    location.pathname === item.href 
+                      ? "text-primary" 
+                      : "text-foreground hover:text-primary"
+                  }`}
+                  onClick={() => setIsOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
