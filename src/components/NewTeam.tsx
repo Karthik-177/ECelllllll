@@ -216,23 +216,23 @@ const NewTeam = () => {
           {/* Front Side */}
           <div className="flip-card-front">
             <img src={member.image} alt={member.name} />
-            <h4 className="text-lg font-bold text-foreground mb-2">{member.name}</h4>
-            <p className="text-sm text-muted-foreground mb-1">{member.department}</p>
-            <p className="text-sm font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 inline-block">
+            <h4 className="text-lg font-bold text-white mb-2">{member.name}</h4>
+            <p className="text-sm text-[#cccccc] mb-1">{member.department}</p>
+            <p className="text-sm font-semibold text-[#00ffff] bg-[#00ffff]/10 rounded-full px-3 py-1 inline-block">
               {member.role}
             </p>
           </div>
           {/* Back Side */}
           <div className="flip-card-back">
-            <h4 className="text-lg font-bold text-foreground mb-2">{member.name}</h4>
+            <h4 className="text-lg font-bold text-white mb-2">{member.name}</h4>
             <div className="social-icons">
-              <a href="" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <a href="" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-[#0077b5] hover:text-[#00ffff] transition-colors duration-300">
                 {/* LinkedIn SVG */}
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.761 0 5-2.239 5-5v-14c0-2.761-2.239-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.268h-3v-5.604c0-1.337-.025-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.381-1.563 2.841-1.563 3.039 0 3.6 2.001 3.6 4.601v5.595z"/>
                 </svg>
               </a>
-              <a href="" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a href="" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-[#e4405f] hover:text-[#00ffff] transition-colors duration-300">
                 {/* Instagram SVG */}
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.241-1.246 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.012-4.947.07-1.276.058-2.687.334-3.678 1.325-.991.991-1.267 2.402-1.325 3.678-.058 1.28-.07 1.688-.07 4.947s.012 3.667.07 4.947c.058 1.276.334 2.687 1.325 3.678.991.991 2.402 1.267 3.678 1.325 1.28.058 1.688.07 4.947.07s3.667-.012 4.947-.07c1.276-.058 2.687-.334 3.678-1.325.991-.991 1.267-2.402 1.325-3.678.058-1.28.07-1.688.07-4.947s-.012-3.667-.07-4.947c-.058-1.276-.334-2.687-1.325-3.678-.991-.991-2.402-1.267-3.678-1.325-1.28-.058-1.688-.07-4.947-.07zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
@@ -300,21 +300,21 @@ const NewTeam = () => {
               : sortMembersByHierarchy(teamMembers[selectedDomain]).map((member, memberIndex) => (
                   <div
                     key={memberIndex}
-                    className="p-6 rounded-2xl bg-card/80 border border-primary/10 text-center hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 hover:scale-105"
+                    className="p-6 rounded-2xl bg-[#111111] border border-[#00ffff] text-center hover:border-[#00ffff] hover:shadow-[0_0_15px_#00ffff] transition-all duration-300 ease-in-out hover:scale-105"
                   >
                     <div className="mb-4 relative group">
                       {member.image ? (
                         <img 
                           src={member.image} 
                           alt={member.name}
-                          className={`w-24 h-24 object-cover rounded-full mx-auto border-3 border-primary/20 transition-transform duration-300 ${
+                          className={`w-24 h-24 object-cover rounded-full mx-auto border-2 border-[#00ffff] transition-transform duration-300 ${
                             member.hasWomen ? '' : 'cursor-pointer hover:scale-110'
                           }`}
                           onClick={() => !member.hasWomen && window.open(member.image, '_blank')}
                         />
                       ) : (
-                        <div className="w-24 h-24 bg-muted/50 border-2 border-dashed border-muted-foreground/30 rounded-full mx-auto flex items-center justify-center">
-                          <span className="text-xs text-muted-foreground">Photo</span>
+                        <div className="w-24 h-24 bg-[#111111] border-2 border-dashed border-[#00ffff]/50 rounded-full mx-auto flex items-center justify-center">
+                          <span className="text-xs text-[#cccccc]">Photo</span>
                         </div>
                       )}
                       {member.image && !member.hasWomen && (
@@ -328,9 +328,9 @@ const NewTeam = () => {
                         </div>
                       )}
                     </div>
-                    <h4 className="text-lg font-bold text-foreground mb-2">{member.name}</h4>
-                    <p className="text-sm text-muted-foreground mb-1">{member.department}</p>
-                    <p className="text-sm font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 inline-block">
+                    <h4 className="text-lg font-bold text-white mb-2">{member.name}</h4>
+                    <p className="text-sm text-[#cccccc] mb-1">{member.department}</p>
+                    <p className="text-sm font-semibold text-[#00ffff] bg-[#00ffff]/10 rounded-full px-3 py-1 inline-block">
                       {member.role}
                     </p>
                   </div>
