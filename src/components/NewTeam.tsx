@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { X } from "lucide-react";
 import "./FlipCard.css";
 
 const NewTeam = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedDomain, setSelectedDomain] = useState("Leadership");
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Sort members by hierarchy: CHIEF, VICE CHIEF, LEAD, CO-LEAD, then others
@@ -246,6 +245,8 @@ const NewTeam = () => {
     );
   };
 
+  const domains = Object.keys(teamMembers);
+
   return (
     <section id="team" ref={sectionRef} className="py-20 bg-background relative overflow-hidden">
       {/* Background decoration */}
@@ -268,84 +269,73 @@ const NewTeam = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {Object.entries(teamMembers).map(([category, members], categoryIndex) => (
-            <div
-              key={category}
-              className={`p-6 rounded-2xl bg-card/80 border border-primary/10 hover:border-primary/30 transition-all duration-500 hover:scale-105 hover:shadow-lg hover:shadow-primary/10 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        {/* Navigation Tabs */}
+        <div className={`flex flex-wrap justify-center gap-4 mb-12 transition-all duration-1000 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          {domains.map((domain) => (
+            <button
+              key={domain}
+              onClick={() => setSelectedDomain(domain)}
+              className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                selectedDomain === domain
+                  ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                  : 'bg-card/50 text-muted-foreground hover:bg-primary/10 hover:text-primary border border-transparent hover:border-primary/30'
               }`}
-              style={{ transitionDelay: `${300 + categoryIndex * 100}ms` }}
             >
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-foreground mb-4">{category}</h3>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="w-full flex items-center justify-center"
-                    >
-                      Show Team
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
-                    <DialogHeader className="pb-4">
-                      <DialogTitle className="text-2xl font-bold text-center">
-                        {category}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <div className="overflow-y-auto max-h-[60vh] pr-2">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {category === "Leadership"
-                          ? sortMembersByHierarchy(members).map((member, memberIndex) => (
-                              <LeadershipFlipCard key={memberIndex} member={member} />
-                            ))
-                          : sortMembersByHierarchy(members).map((member, memberIndex) => (
-                              <div
-                                key={memberIndex}
-                                className="p-4 rounded-xl bg-card/50 border border-primary/10 text-center hover:border-primary/30 transition-colors"
-                              >
-                                <div className="mb-4 relative group">
-                                  {member.image ? (
-                                    <img 
-                                      src={member.image} 
-                                      alt={member.name}
-                                      className={`w-20 h-20 object-cover rounded-full mx-auto border-3 border-primary/20 transition-transform duration-300 ${
-                                        member.hasWomen ? '' : 'cursor-pointer hover:scale-110'
-                                      }`}
-                                      onClick={() => !member.hasWomen && window.open(member.image, '_blank')}
-                                    />
-                                  ) : (
-                                    <div className="w-20 h-20 bg-muted/50 border-2 border-dashed border-muted-foreground/30 rounded-full mx-auto flex items-center justify-center">
-                                      <span className="text-xs text-muted-foreground">Photo</span>
-                                    </div>
-                                  )}
-                                  {member.image && !member.hasWomen && (
-                                    <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center cursor-pointer"
-                                         onClick={() => window.open(member.image, '_blank')}>
-                                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                                        </svg>
-                                      </div>
-                                    </div>
-                                  )}
-                                </div>
-                                <h4 className="text-lg font-bold text-foreground mb-2">{member.name}</h4>
-                                <p className="text-sm text-muted-foreground mb-1">{member.department}</p>
-                                <p className="text-sm font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 inline-block">
-                                  {member.role}
-                                </p>
-                              </div>
-                            ))}
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </div>
+              {domain}
+            </button>
           ))}
+        </div>
+
+        {/* Team Members Grid */}
+        <div className={`transition-all duration-500 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+        }`}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {selectedDomain === "Leadership"
+              ? sortMembersByHierarchy(teamMembers[selectedDomain]).map((member, memberIndex) => (
+                  <LeadershipFlipCard key={memberIndex} member={member} />
+                ))
+              : sortMembersByHierarchy(teamMembers[selectedDomain]).map((member, memberIndex) => (
+                  <div
+                    key={memberIndex}
+                    className="p-6 rounded-2xl bg-card/80 border border-primary/10 text-center hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 transition-all duration-300 hover:scale-105"
+                  >
+                    <div className="mb-4 relative group">
+                      {member.image ? (
+                        <img 
+                          src={member.image} 
+                          alt={member.name}
+                          className={`w-24 h-24 object-cover rounded-full mx-auto border-3 border-primary/20 transition-transform duration-300 ${
+                            member.hasWomen ? '' : 'cursor-pointer hover:scale-110'
+                          }`}
+                          onClick={() => !member.hasWomen && window.open(member.image, '_blank')}
+                        />
+                      ) : (
+                        <div className="w-24 h-24 bg-muted/50 border-2 border-dashed border-muted-foreground/30 rounded-full mx-auto flex items-center justify-center">
+                          <span className="text-xs text-muted-foreground">Photo</span>
+                        </div>
+                      )}
+                      {member.image && !member.hasWomen && (
+                        <div className="absolute inset-0 rounded-full bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center cursor-pointer"
+                             onClick={() => window.open(member.image, '_blank')}>
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <h4 className="text-lg font-bold text-foreground mb-2">{member.name}</h4>
+                    <p className="text-sm text-muted-foreground mb-1">{member.department}</p>
+                    <p className="text-sm font-semibold text-primary bg-primary/10 rounded-full px-3 py-1 inline-block">
+                      {member.role}
+                    </p>
+                  </div>
+                ))}
+          </div>
         </div>
       </div>
     </section>
